@@ -17,9 +17,9 @@ class GameWindow : public Gosu::Window
 public:
 	Gosu::Image bild;
 	GameWindow()
-		: Window(800, 600)
+		: Window(3000, 2000)
 	{
-		set_caption("Hallo Mariella   <3");
+		set_caption("Hallo Mariella  <3");
 	}
 
 	// wird bis zu 60x pro Sekunde aufgerufen.
