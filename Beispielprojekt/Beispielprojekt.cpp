@@ -31,7 +31,6 @@ public:
 	void draw() override
 	{
 		Boden.draw_rot(0.0, 1250.0, 0.0, 0.0, 0.0);
-		//Hab dich auch ganz doll lieb <3
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
