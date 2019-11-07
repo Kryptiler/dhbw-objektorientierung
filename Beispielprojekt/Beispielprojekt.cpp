@@ -19,7 +19,7 @@ public:
 	GameWindow()
 		: Window(3000, 2000)
 	{
-		set_caption("Hallo Mariella  <3");
+		set_caption("Cooles E-Techniker Spiel");
 	}
 
 	// wird bis zu 60x pro Sekunde aufgerufen.
