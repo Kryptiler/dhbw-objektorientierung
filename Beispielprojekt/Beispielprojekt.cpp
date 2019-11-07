@@ -15,9 +15,10 @@ const double DT = 100.0;
 class GameWindow : public Gosu::Window
 {
 public:
-	Gosu::Image bild;
+	Gosu::Image Boden;
 	GameWindow()
 		: Window(3000, 2000)
+		, Boden("Boden.png")
 	{
 		set_caption("Hallo Mariella  <3");
 	}
@@ -27,6 +28,7 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
+		Boden.draw()
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
