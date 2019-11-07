@@ -4,6 +4,8 @@
 
 Maincharacter::Maincharacter()
 {
+	this->x = 20;
+	this->y = 800;
 }
 
 
@@ -32,4 +34,5 @@ void Maincharacter::draw()
 {
 
 }
+
 
