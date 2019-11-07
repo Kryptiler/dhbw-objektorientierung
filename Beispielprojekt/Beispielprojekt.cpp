@@ -34,6 +34,7 @@ public:
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
+		//Änderung
 		//hallo welt, hab dich lieb
 	}
 };
