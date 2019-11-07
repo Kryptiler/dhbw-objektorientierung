@@ -18,7 +18,7 @@ public:
 	Gosu::Image Boden;
 	GameWindow()
 		: Window(3000, 2000)
-		, Boden("Sand1.png")
+		, Boden("Sand1.png")		
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
