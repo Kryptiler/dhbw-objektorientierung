@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Vektor2d.h"
+#include "Maincharacter.h"
 
 // Simulationsgeschwindigkeit
 const double DT = 100.0;
@@ -15,6 +16,7 @@ const double DT = 100.0;
 class GameWindow : public Gosu::Window
 {
 public:
+	Maincharacter Helferlein;
 	Gosu::Image Boden;
 	GameWindow()
 		: Window(3000, 2000)
@@ -39,9 +41,11 @@ public:
 		//hallo welt, hab dich lieb
 		if (input().down(Gosu::KB_LEFT))
 		{
-			//
-			//
-			//
+			Helferlein.left();
+		}
+		if (input().down(Gosu::KB_RIGHT))
+		{
+			Helferlein.right();
 		}
 	}
 };

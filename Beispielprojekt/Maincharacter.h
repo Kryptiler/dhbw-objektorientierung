@@ -9,10 +9,10 @@ public:
 	void left();
 	void draw();
 private:
-	double x;
-	double y;
-	double v_x;
-	double v_y;
-	int animation;
+	double x = 0;
+	double y = 0;
+	double v_x = 0;
+	double v_y = 0;
+	int animation = 0;
 };
 
