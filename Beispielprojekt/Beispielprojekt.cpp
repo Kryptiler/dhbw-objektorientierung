@@ -28,12 +28,13 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		Boden.draw(0.0, 1250.0, 0.0, 0.0, 0.0);
+		Boden.draw_rot(0.0, 1250.0, 0.0, 0.0, 0.0);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
+		//hallo welt, hab dich lieb
 	}
 };
 
