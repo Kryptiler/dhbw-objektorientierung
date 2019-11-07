@@ -18,7 +18,7 @@ public:
 	Gosu::Image Boden;
 	GameWindow()
 		: Window(3000, 2000)
-		, Boden("Boden.png")
+		, Boden("Sand1.png")
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
@@ -28,7 +28,7 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		Boden.draw()
+		Boden.draw(0.0, 1250.0, 0.0, 0.0, 0.0);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
