@@ -36,6 +36,10 @@ public:
 	{
 		//Änderung
 		//hallo welt, hab dich lieb
+		if (input().down(Gosu::KB_LEFT))
+		{
+			//
+		}
 	}
 };
 
