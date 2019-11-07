@@ -20,7 +20,7 @@ public:
 	Gosu::Image Boden;
 	GameWindow()
 		: Window(3000, 2000)
-		, Boden("Sand1.png")
+		, Boden("Sand1.png")		
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
@@ -31,7 +31,6 @@ public:
 	void draw() override
 	{
 		Boden.draw_rot(0.0, 1250.0, 0.0, 0.0, 0.0);
-		//Hab dich auch ganz doll lieb <3
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
