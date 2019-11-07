@@ -40,6 +40,8 @@ public:
 		if (input().down(Gosu::KB_LEFT))
 		{
 			//
+			//
+			//
 		}
 	}
 };

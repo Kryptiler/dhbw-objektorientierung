@@ -7,6 +7,7 @@ public:
 	void bewege();
 	void right();
 	void left();
+	void draw();
 private:
 	double x;
 	double y;

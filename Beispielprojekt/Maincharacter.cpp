@@ -28,3 +28,8 @@ void Maincharacter::left()
 	v_x = -1;
 }
 
+void Maincharacter::draw()
+{
+
+}
+
