@@ -32,9 +32,9 @@ public:
 	{
 		Boden.draw_rot(0.0, 1000.0, 0.0, 0.0, 0.0);
 		graphics().draw_triangle(
-			Helferlein.x, Helferlein.y, Gosu::Color::WHITE,
-			Helferlein.x + 20, Helferlein.y+10, Gosu::Color::WHITE,
-			Helferlein.x, Helferlein.y+20, Gosu::Color::WHITE,
+			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
+			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
+			Helferlein.get_x(), Helferlein.get_y()+20, Gosu::Color::WHITE,
 			0.0
 		);
 	}
@@ -46,11 +46,15 @@ public:
 		Helferlein.bewege();
 		if (input().down(Gosu::KB_LEFT))
 		{
-			Helferlein.left();
+			Helferlein.left(2);
 		}
 		if (input().down(Gosu::KB_RIGHT))
 		{
-			Helferlein.right();
+			Helferlein.right(2);
+		}
+		if (input().down(Gosu::KB_UP))
+		{
+			Helferlein.sprung();
 		}
 	}
 };
