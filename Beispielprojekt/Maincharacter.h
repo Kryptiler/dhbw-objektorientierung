@@ -5,15 +5,18 @@ public:
 	Maincharacter();
 	~Maincharacter();
 	void bewege();
-	void right();
-	void left();
-	void draw();
+	void right(double speed, double& scroll, double& scroll2);
+	void left(double speed, double& scroll, double& scroll2);
+	void sprung();
+	double get_x();
+	double get_y();
+
+private:
 	double x;
 	double y;
-private:
-
-	double v_x = 0;
 	double v_y = 0;
+	double a_down = 0;
 	int animation = 0;
+	bool jump = true;
 };
 

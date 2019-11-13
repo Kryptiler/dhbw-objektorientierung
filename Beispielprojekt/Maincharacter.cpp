@@ -4,8 +4,8 @@
 
 Maincharacter::Maincharacter()
 {
-	this->x = 20;
-	this->y = 800;
+	this->x = 500;
+	this->y = 1060;
 }
 
 
@@ -15,24 +15,84 @@ Maincharacter::~Maincharacter()
 
 void Maincharacter::bewege()
 {
-	x += v_x;
 	y += v_y;
+	if (y > 1060)
+	{
+		y = 1060;
+	}
 	animation = animation + 1 % 6;
+	if (y < 1060)
+	{
+		v_y += a_down * 0.3;
+		a_down++;
+	}
+	else
+	{
+		a_down = 0;
+		jump = true;
+	}
 }
 
-void Maincharacter::right()
+void Maincharacter::right(double speed, double& scroll, double& scroll2)
 {
-	v_x = 1;
+	if (x+speed>=1440)
+	{
+		scroll = scroll - speed;
+		if (scroll <= -2990)
+		{
+			scroll = 2990;
+		}
+		scroll2 = scroll2 - speed;
+		if (scroll2 <= -2990)
+		{
+			scroll2 = 2990;
+		}
+	}
+	else
+	{
+		x += speed;
+		
+	}
 }
 
-void Maincharacter::left()
+void Maincharacter::left(double speed, double& scroll, double& scroll2)
 {
-	v_x = -1;
+	if (x - speed <= 480)
+	{
+		scroll = scroll + speed;
+		if (scroll>= 2990)
+		{
+			scroll = -2990;
+		}
+		scroll2 = scroll2 + speed;
+		if (scroll2 >= 2990)
+		{
+			scroll2 = -2990;
+		}
+	}
+	else
+	{
+		x -= speed;
+	}
 }
 
-void Maincharacter::draw()
+void Maincharacter::sprung()
 {
+	if (jump == true)
+	{
+		v_y = -30;
+		jump = false;
+	}
+}
 
+double Maincharacter::get_x()
+{
+	return x;
+}
+
+double Maincharacter::get_y()
+{
+	return y;
 }
 
 
