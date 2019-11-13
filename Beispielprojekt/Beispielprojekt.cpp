@@ -17,9 +17,12 @@ class GameWindow : public Gosu::Window
 {
 public:
 	Maincharacter Helferlein;
+	int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
+	double hintergrund = 0;
+	double hintergrund2 = 2990;
 	Gosu::Image Boden;
 	GameWindow()
-		: Window(1920, 1080)
+		: Window(1920, 1080,true)
 		, Boden("Sand1.png")		
 	{
 		set_caption("Cooles E-Techniker Spiel");
@@ -30,7 +33,8 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		Boden.draw_rot(0.0, 1000.0, 0.0, 0.0, 0.0);
+		Boden.draw_rot(hintergrund, 1000.0, 0.0, 0.0, 0.0);
+		Boden.draw_rot(hintergrund2, 1000.0, 0.0, 0.0, 0.0);
 		graphics().draw_triangle(
 			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
 			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
@@ -43,14 +47,15 @@ public:
 
 	void update() override
 	{
+
 		Helferlein.bewege();
 		if (input().down(Gosu::KB_LEFT))
 		{
-			Helferlein.left(2);
+			Helferlein.left(15, hintergrund, hintergrund2);
 		}
 		if (input().down(Gosu::KB_RIGHT))
 		{
-			Helferlein.right(2);
+			Helferlein.right(14, hintergrund, hintergrund2);
 		}
 		if (input().down(Gosu::KB_UP))
 		{

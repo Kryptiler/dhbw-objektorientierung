@@ -5,8 +5,8 @@ public:
 	Maincharacter();
 	~Maincharacter();
 	void bewege();
-	void right(double speed);
-	void left(double speed);
+	void right(double speed, double& scroll, double& scroll2);
+	void left(double speed, double& scroll, double& scroll2);
 	void sprung();
 	double get_x();
 	double get_y();

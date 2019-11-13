@@ -4,7 +4,7 @@
 
 Maincharacter::Maincharacter()
 {
-	this->x = 20;
+	this->x = 500;
 	this->y = 1060;
 }
 
@@ -33,14 +33,47 @@ void Maincharacter::bewege()
 	}
 }
 
-void Maincharacter::right(double speed)
+void Maincharacter::right(double speed, double& scroll, double& scroll2)
 {
-	x += speed;
+	if (x+speed>=1440)
+	{
+		scroll = scroll - speed;
+		if (scroll <= -2990)
+		{
+			scroll = 2990;
+		}
+		scroll2 = scroll2 - speed;
+		if (scroll2 <= -2990)
+		{
+			scroll2 = 2990;
+		}
+	}
+	else
+	{
+		x += speed;
+		
+	}
 }
 
-void Maincharacter::left(double speed)
+void Maincharacter::left(double speed, double& scroll, double& scroll2)
 {
-	x -= speed;
+	if (x - speed <= 480)
+	{
+		scroll = scroll + speed;
+		if (scroll>= 2990)
+		{
+			scroll = -2990;
+		}
+		scroll2 = scroll2 + speed;
+		if (scroll2 >= 2990)
+		{
+			scroll2 = -2990;
+		}
+	}
+	else
+	{
+		x -= speed;
+	}
 }
 
 void Maincharacter::sprung()
