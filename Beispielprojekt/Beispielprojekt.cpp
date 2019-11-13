@@ -21,9 +21,17 @@ public:
 	double hintergrund = 0;
 	double hintergrund2 = 2990;
 	Gosu::Image Boden;
+	Gosu::Image Helferlein_l;
+	Gosu::Image Helferlein_r;
+	Gosu::Image Helferlein_m;
+	Gosu::Image Helferlein_s;
 	GameWindow()
 		: Window(1920, 1080,true)
-		, Boden("Sand1.png")		
+		, Boden("Sand1.png")
+		, Helferlein_l("Helferlein_links.png")
+		, Helferlein_r("Helferlein_rechts.png")
+		, Helferlein_m("Helferlein_Mittelpostion.png")
+		, Helferlein_s("Helferlein_Sprung.png")
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
