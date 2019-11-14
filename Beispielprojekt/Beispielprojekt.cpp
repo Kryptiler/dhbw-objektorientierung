@@ -30,7 +30,7 @@ public:
 		, Boden("Sand1.png")
 		, Helferlein_l("Helferlein_links.png")
 		, Helferlein_r("Helferlein_rechts.png")
-		, Helferlein_m("Helferlein_Mittelpostion.png")
+		, Helferlein_m("Helferlein_Mittelposition.png")
 		, Helferlein_s("Helferlein_Sprung.png")
 	{
 		set_caption("Cooles E-Techniker Spiel");
@@ -41,14 +41,34 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		Boden.draw_rot(hintergrund, 1000.0, 0.0, 0.0, 0.0);
-		Boden.draw_rot(hintergrund2, 1000.0, 0.0, 0.0, 0.0);
-		graphics().draw_triangle(
+		Boden.draw_rot(hintergrund, 1250.0, 0.0, 0.0, 0.0);
+		Boden.draw_rot(hintergrund2, 1250.0, 0.0, 0.0, 0.0);
+		/*graphics().draw_triangle(
 			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
 			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
 			Helferlein.get_x(), Helferlein.get_y()+20, Gosu::Color::WHITE,
 			0.0
-		);
+		);*/
+		switch (Helferlein.get_animation())
+		{
+		case 0:
+			Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 1:
+			Helferlein_r.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 2:
+			Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 3:
+			Helferlein_l.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 5:
+			Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		default:
+			break;
+		}
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
