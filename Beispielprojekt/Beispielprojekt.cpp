@@ -30,9 +30,9 @@ public:
 	GameWindow()
 		: Window(1920, 1080,true)
 		, Boden("Sand1.png")
-		, Helferlein_l("Helferlein_links.png")
+		, Helferlein_l("Helferlein_Mittelpos.png")
 		, Helferlein_r("Helferlein_rechts.png")
-		, Helferlein_m("Helferlein_Mittelposition.png")
+		, Helferlein_m("r_l_mittig.png")
 		, Helferlein_s("Helferlein_Sprung.png")
 	{
 		set_caption("Cooles E-Techniker Spiel");
