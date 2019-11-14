@@ -20,22 +20,26 @@ void Maincharacter::bewege()
 	{
 		y = 880;
 	}
-	if (y < 880)
+	if (jump==false)
 	{
-		v_y += a_down * 0.3;
-		a_down++;
-	}
-	else
-	{
-		a_down = 0;
-		jump = true;
+		if (y < 880)
+		{
+			v_y += a_down * 0.3;
+			a_down++;
+		}
+		else
+		{
+			a_down = 0;
+			jump = true;
+			animation = 0;
+		}
 	}
 }
 
 void Maincharacter::right(double speed, double& scroll, double& scroll2)
 {
 	animation++;
-	if (animation >= 40)
+	if (animation == 40||animation>=60)
 	{
 		animation = 0;
 	}
