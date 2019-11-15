@@ -27,13 +27,21 @@ public:
 	Gosu::Image Helferlein_r;
 	Gosu::Image Helferlein_m;
 	Gosu::Image Helferlein_s;
+	Gosu::Image Helferlein_l_umg;
+	Gosu::Image Helferlein_r_umg;
+	Gosu::Image Helferlein_m_umg;
+	Gosu::Image Helferlein_s_umg;
 	GameWindow()
-		: Window(1920, 1080,true)
+		: Window(1920, 1080)
 		, Boden("Sand1.png")
 		, Helferlein_l("Helferlein_Mittelpos.png")
 		, Helferlein_r("Helferlein_rechts.png")
 		, Helferlein_m("r_l_mittig.png")
 		, Helferlein_s("Helferlein_Sprung.png")
+		, Helferlein_l_umg("Helferlein_Mittelpos_umg.png")
+		, Helferlein_r_umg("Helferlein_rechts_umg.png")
+		, Helferlein_m_umg("r_l_mittig_umg.png")
+		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
@@ -46,7 +54,7 @@ public:
 		graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
 		Boden.draw_rot(hintergrund, 1250.0, 0.0, 0.0, 0.0);
 		Boden.draw_rot(hintergrund2, 1250.0, 0.0, 0.0, 0.0);
-		graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 50, 50, Gosu::Color::WHITE, 0.0);
+		graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
 		/*graphics().draw_triangle(
 			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
 			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
@@ -70,6 +78,21 @@ public:
 		case 5:
 			Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 			break;
+		case 6:
+			Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 7:
+			Helferlein_r_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 8:
+			Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 9:
+			Helferlein_l_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
+		case 10:
+			Helferlein_s_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			break;
 		default:
 			break;
 		}
@@ -85,7 +108,7 @@ public:
 		{
 			Helferlein.left(15, hintergrund, hintergrund2);
 		}
-		if (input().down(Gosu::KB_RIGHT))
+		else if (input().down(Gosu::KB_RIGHT))
 		{
 			Helferlein.right(14, hintergrund, hintergrund2);
 		}

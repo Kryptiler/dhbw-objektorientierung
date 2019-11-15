@@ -31,19 +31,27 @@ void Maincharacter::bewege()
 		{
 			a_down = 0;
 			jump = true;
-			animation = 0;
+			if (richtung==true)
+			{
+				animation = 0;
+			}
+			else
+			{
+				animation = 60;
+			}
 		}
 	}
 }
 
 void Maincharacter::right(double speed, double& scroll, double& scroll2)
 {
+	richtung = true;
 	animation++;
 	if (animation == 40||animation>=60)
 	{
 		animation = 0;
 	}
-	if (x+speed>=1440)
+	if (x+speed>=1200)
 	{
 		scroll = scroll - speed;
 		if (scroll <= -2990)
@@ -65,6 +73,12 @@ void Maincharacter::right(double speed, double& scroll, double& scroll2)
 
 void Maincharacter::left(double speed, double& scroll, double& scroll2)
 {
+	richtung = false;
+	animation++;
+	if (animation < 60 || animation == 100 || animation>=110)
+	{
+		animation = 60;
+	}
 	if (x - speed <= 480)
 	{
 		scroll = scroll + speed;
@@ -90,7 +104,14 @@ void Maincharacter::sprung()
 	{
 		v_y = -30;
 		jump = false;
-		animation = 50;
+		if (richtung==true)
+		{
+			animation = 50;
+		}
+		else
+		{
+			animation = 100;
+		}
 	}
 }
 
