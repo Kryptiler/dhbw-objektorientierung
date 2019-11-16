@@ -19,5 +19,6 @@ private:
 	double a_down = 0;
 	int animation = 0;
 	bool jump = true;
+	bool richtung = true; //true=rechts, false=links
 };
 
