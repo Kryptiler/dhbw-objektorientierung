@@ -21,8 +21,10 @@ public:
 	Hindernisse Box;
 	int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
 	double hintergrund = 0;
-	double hintergrund2 = 2990;
+	double hintergrund2 = 1910;
 	Gosu::Image Boden;
+	Gosu::Image Hintergrund;
+	Gosu::Image Hintergrund_umg;
 	Gosu::Image Helferlein_l;
 	Gosu::Image Helferlein_r;
 	Gosu::Image Helferlein_m;
@@ -34,6 +36,8 @@ public:
 	GameWindow()
 		: Window(1920, 1080)
 		, Boden("Sand1.png")
+		, Hintergrund("Haeuser_Hintergrund.png")
+		, Hintergrund_umg("Haeuser_Hintergrund_umg.png")
 		, Helferlein_l("Helferlein_Mittelpos.png")
 		, Helferlein_r("Helferlein_rechts.png")
 		, Helferlein_m("r_l_mittig.png")
@@ -51,10 +55,10 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
-		Boden.draw_rot(hintergrund, 1250.0, 0.0, 0.0, 0.0);
-		Boden.draw_rot(hintergrund2, 1250.0, 0.0, 0.0, 0.0);
-		graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+		//graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
+		Hintergrund.draw_rot(hintergrund, 540.0, 0.0, 0.0, 0.0);
+		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
+		//graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
 		/*graphics().draw_triangle(
 			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
 			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
