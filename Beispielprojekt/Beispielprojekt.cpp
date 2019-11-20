@@ -35,7 +35,6 @@ public:
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
 	Gosu::Font font;
-	int score1;
 	GameWindow()
 		: Window(1920, 1080)
 		, Boden("Sand1.png")
@@ -104,9 +103,7 @@ public:
 		default:
 			break;
 		}
-		score1 = Helferlein.get_score();
-		font.draw("SCORE: ", 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
-		//font.draw(string(score1), 1730.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+		font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
