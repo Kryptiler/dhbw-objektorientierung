@@ -11,6 +11,7 @@ public:
 	double get_x();
 	double get_y();
 	int get_animation();
+	int get_score();
 
 private:
 	double x;
@@ -20,5 +21,6 @@ private:
 	int animation = 0;
 	bool jump = true;
 	bool richtung = true; //true=rechts, false=links
+	int score = 0;
 };
 

@@ -46,6 +46,7 @@ void Maincharacter::bewege()
 void Maincharacter::right(double speed, double& scroll, double& scroll2)
 {
 	richtung = true;
+	score += 50;
 	animation++;
 	if (animation == 40||animation>=60)
 	{
@@ -74,6 +75,7 @@ void Maincharacter::right(double speed, double& scroll, double& scroll2)
 void Maincharacter::left(double speed, double& scroll, double& scroll2)
 {
 	richtung = false;
+	score -= 50;
 	animation++;
 	if (animation < 60 || animation == 100 || animation>=110)
 	{
@@ -130,4 +132,7 @@ int Maincharacter::get_animation()
 	return this->animation/10;
 }
 
-
+int Maincharacter::get_score()
+{
+	return this->score;
+}

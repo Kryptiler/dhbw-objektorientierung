@@ -2,6 +2,7 @@
 
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
+//#include <Gosu/Bitmap.hpp>
 
 #include <vector>
 #include <string>
@@ -33,6 +34,8 @@ public:
 	Gosu::Image Helferlein_r_umg;
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
+	Gosu::Font font;
+	int score1;
 	GameWindow()
 		: Window(1920, 1080)
 		, Boden("Sand1.png")
@@ -46,6 +49,7 @@ public:
 		, Helferlein_r_umg("Helferlein_rechts_umg.png")
 		, Helferlein_m_umg("r_l_mittig_umg.png")
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
+		, font(24)
 	{
 		set_caption("Cooles E-Techniker Spiel");
 	}
@@ -100,6 +104,9 @@ public:
 		default:
 			break;
 		}
+		score1 = Helferlein.get_score();
+		font.draw("SCORE: ", 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+		//font.draw(string(score1), 1730.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
