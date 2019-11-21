@@ -34,3 +34,13 @@ void Hindernisse::scrollen(double scroll)
 {
 	x -= scroll;
 }
+
+void Hindernisse::set_deadly(bool d)
+{
+	this->deadly = d;
+}
+
+bool Hindernisse::get_deadly()
+{
+	return this->deadly;
+}

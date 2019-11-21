@@ -12,6 +12,7 @@
 #include "Vektor2d.h"
 #include "Maincharacter.h"
 #include "Hindernisse.h"
+#include <time.h>
 using namespace std;
 
 // Simulationsgeschwindigkeit
@@ -28,6 +29,9 @@ public:
 	double scroll=0;
 	bool run = true;
 	int intervall = 120;
+	double lost = -200;
+	int wand = -200;
+	double speed = 10;
 	vector<Hindernisse> boxen;
 	
 	Gosu::Image Boden;
@@ -61,6 +65,7 @@ public:
 	{
 		set_caption("Cooles E-Techniker Spiel");
 		boxen.push_back(Box);
+		srand(time(NULL));					//Random Seed generieren
 	}
 
 	// wird bis zu 60x pro Sekunde aufgerufen.
@@ -72,7 +77,14 @@ public:
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
 		for (auto i = boxen.begin(); i !=boxen.end(); i++)
 		{
-			graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+			if (i->get_deadly()==false)
+			{
+				graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+			}
+			else
+			{
+				graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
+			}
 
 		}
 
@@ -112,6 +124,7 @@ public:
 			break;
 		}
 		font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+		font.draw("Rand: " + std::to_string(wand), 1400, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
@@ -119,10 +132,12 @@ public:
 	void update() override
 	{
 		Helferlein.bewege();
+		lost += speed-5;
+		wand += speed-5;
 		if (input().down(Gosu::KB_LEFT))
 		{
 			intervall++;
-			scroll = Helferlein.left(14);
+			scroll = Helferlein.left(speed-2);
 			hintergrund -= scroll;
 			if (hintergrund >= 1910)
 			{
@@ -137,8 +152,9 @@ public:
 		else if (input().down(Gosu::KB_RIGHT)&&run==true)
 		{
 			intervall--;
-			scroll = Helferlein.right(15);
+			scroll = Helferlein.right(speed);
 			hintergrund -= scroll;
+			lost -= scroll;
 			if (hintergrund <= -1910)
 			{
 				hintergrund = 1910;
@@ -156,22 +172,38 @@ public:
 		run = true;
 		if (intervall == 0)
 		{
-			intervall = 120;
+			intervall = 80 + (rand()%80);
+			speed += 0.5;
 			Hindernisse neu;
+			neu.set_deadly(rand() % 2);
 			boxen.push_back(neu);
 		}
 		for (auto i = boxen.begin(); i != boxen.end(); i++)
 		{
 			i->scrollen(scroll);
-			if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+			if (Helferlein.get_y() >= 775)
 			{
-				if (Helferlein.get_y()>=775)
+				if (i->get_deadly()==false)
 				{
-					run = false;
+					if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+					{
+						run = false;
+					}
+				}
+				else
+				{
+					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+					{
+						exit(0);
+					}
 				}
 			}
 		}
 		scroll = 0;
+		if (lost>=Helferlein.get_x())
+		{
+			exit(0);
+		}
 	}
 };
 
