@@ -27,6 +27,7 @@ public:
 	double hintergrund2 = 1910;
 	double scroll=0;
 	bool run = true;
+	int intervall = 120;
 	vector<Hindernisse> boxen;
 	
 	Gosu::Image Boden;
@@ -67,20 +68,14 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		//graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
 		Hintergrund.draw_rot(hintergrund, 540.0, 0.0, 0.0, 0.0);
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
 		for (auto i = boxen.begin(); i !=boxen.end(); i++)
 		{
 			graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
 
-		}		/*graphics().draw_triangle(
-			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
-			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
-			Helferlein.get_x(), Helferlein.get_y()+20, Gosu::Color::WHITE,
-			0.0
-		);*/
-		//Kiste.draw_rot(Box.get_x() + hintergrund, Box.get_y(), 0.0, 0.0, 0.0);
+		}
+
 		switch (Helferlein.get_animation())
 		{
 		case 0:
@@ -126,6 +121,7 @@ public:
 		Helferlein.bewege();
 		if (input().down(Gosu::KB_LEFT))
 		{
+			intervall++;
 			scroll = Helferlein.left(14);
 			hintergrund -= scroll;
 			if (hintergrund >= 1910)
@@ -140,6 +136,7 @@ public:
 		}
 		else if (input().down(Gosu::KB_RIGHT)&&run==true)
 		{
+			intervall--;
 			scroll = Helferlein.right(15);
 			hintergrund -= scroll;
 			if (hintergrund <= -1910)
@@ -157,6 +154,12 @@ public:
 			Helferlein.sprung();
 		}
 		run = true;
+		if (intervall == 0)
+		{
+			intervall = 120;
+			Hindernisse neu;
+			boxen.push_back(neu);
+		}
 		for (auto i = boxen.begin(); i != boxen.end(); i++)
 		{
 			i->scrollen(scroll);

@@ -4,7 +4,7 @@
 
 Hindernisse::Hindernisse()
 {
-	this->x = 1200;
+	this->x = 1980;
 	this->y = 775;
 }
 
