@@ -7,10 +7,12 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <cstdint>
 
 #include "Vektor2d.h"
 #include "Maincharacter.h"
 #include "Hindernisse.h"
+using namespace std;
 
 // Simulationsgeschwindigkeit
 const double DT = 100.0;
@@ -20,9 +22,13 @@ class GameWindow : public Gosu::Window
 public:
 	Maincharacter Helferlein;
 	Hindernisse Box;
-	int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
+	//int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
 	double hintergrund = 0;
 	double hintergrund2 = 1910;
+	double scroll=0;
+	bool run = true;
+	vector<Hindernisse> boxen;
+	
 	Gosu::Image Boden;
 	Gosu::Image Hintergrund;
 	Gosu::Image Hintergrund_umg;
@@ -34,6 +40,7 @@ public:
 	Gosu::Image Helferlein_r_umg;
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
+	//Gosu::Image Kiste;
 	Gosu::Font font;
 	GameWindow()
 		: Window(1920, 1080)
@@ -48,9 +55,11 @@ public:
 		, Helferlein_r_umg("Helferlein_rechts_umg.png")
 		, Helferlein_m_umg("r_l_mittig_umg.png")
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
+		//, Kiste("kiste.png")
 		, font(24)
 	{
 		set_caption("Cooles E-Techniker Spiel");
+		boxen.push_back(Box);
 	}
 
 	// wird bis zu 60x pro Sekunde aufgerufen.
@@ -61,13 +70,17 @@ public:
 		//graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
 		Hintergrund.draw_rot(hintergrund, 540.0, 0.0, 0.0, 0.0);
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
-		//graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
-		/*graphics().draw_triangle(
+		for (auto i = boxen.begin(); i !=boxen.end(); i++)
+		{
+			graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+
+		}		/*graphics().draw_triangle(
 			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
 			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
 			Helferlein.get_x(), Helferlein.get_y()+20, Gosu::Color::WHITE,
 			0.0
 		);*/
+		//Kiste.draw_rot(Box.get_x() + hintergrund, Box.get_y(), 0.0, 0.0, 0.0);
 		switch (Helferlein.get_animation())
 		{
 		case 0:
@@ -107,23 +120,55 @@ public:
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
-
+	
 	void update() override
 	{
-
 		Helferlein.bewege();
 		if (input().down(Gosu::KB_LEFT))
 		{
-			Helferlein.left(15, hintergrund, hintergrund2);
+			scroll = Helferlein.left(14);
+			hintergrund -= scroll;
+			if (hintergrund >= 1910)
+			{
+				hintergrund = -1910;
+			}
+			hintergrund2 -= scroll;
+			if (hintergrund2 >= 1910)
+			{
+				hintergrund2 = -1910;
+			}
 		}
-		else if (input().down(Gosu::KB_RIGHT))
+		else if (input().down(Gosu::KB_RIGHT)&&run==true)
 		{
-			Helferlein.right(14, hintergrund, hintergrund2);
+			scroll = Helferlein.right(15);
+			hintergrund -= scroll;
+			if (hintergrund <= -1910)
+			{
+				hintergrund = 1910;
+			}
+			hintergrund2 -= scroll;
+			if (hintergrund2 <= -1910)
+			{
+				hintergrund2 = 1910;
+			}
 		}
 		if (input().down(Gosu::KB_UP))
 		{
 			Helferlein.sprung();
 		}
+		run = true;
+		for (auto i = boxen.begin(); i != boxen.end(); i++)
+		{
+			i->scrollen(scroll);
+			if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+			{
+				if (Helferlein.get_y()>=775)
+				{
+					run = false;
+				}
+			}
+		}
+		scroll = 0;
 	}
 };
 

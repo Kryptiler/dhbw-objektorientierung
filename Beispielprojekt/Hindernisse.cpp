@@ -15,10 +15,22 @@ Hindernisse::~Hindernisse()
 
 double Hindernisse::get_x()
 {
-	return this->x;
+	if (da==true)
+	{
+		return this->x;
+	}
+	else
+	{
+		return -100;
+	}
 }
 
 double Hindernisse::get_y()
 {
 	return this->y;
+}
+
+void Hindernisse::scrollen(double scroll)
+{
+	x -= scroll;
 }
