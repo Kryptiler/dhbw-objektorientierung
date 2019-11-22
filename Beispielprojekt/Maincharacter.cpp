@@ -43,10 +43,10 @@ void Maincharacter::bewege()
 	}
 }
 
-void Maincharacter::right(double speed, double& scroll, double& scroll2)
+double Maincharacter::right(double speed)
 {
 	richtung = true;
-	score += 10;
+	score += speed;
 	animation++;
 	if (animation == 40||animation>=60)
 	{
@@ -54,28 +54,19 @@ void Maincharacter::right(double speed, double& scroll, double& scroll2)
 	}
 	if (x+speed>=1200)
 	{
-		scroll = scroll - speed;
-		if (scroll <= -2990)
-		{
-			scroll = 2990;
-		}
-		scroll2 = scroll2 - speed;
-		if (scroll2 <= -2990)
-		{
-			scroll2 = 2990;
-		}
+		return speed;
 	}
 	else
 	{
 		x += speed;
-		
+		return 0;
 	}
 }
 
-void Maincharacter::left(double speed, double& scroll, double& scroll2)
+double Maincharacter::left(double speed)
 {
 	richtung = false;
-	score -= 10;
+	score -= speed;
 	animation++;
 	if (animation < 60 || animation == 100 || animation>=110)
 	{
@@ -83,20 +74,12 @@ void Maincharacter::left(double speed, double& scroll, double& scroll2)
 	}
 	if (x - speed <= 480)
 	{
-		scroll = scroll + speed;
-		if (scroll>= 2990)
-		{
-			scroll = -2990;
-		}
-		scroll2 = scroll2 + speed;
-		if (scroll2 >= 2990)
-		{
-			scroll2 = -2990;
-		}
+		return -speed;
 	}
 	else
 	{
 		x -= speed;
+		return 0;
 	}
 }
 
