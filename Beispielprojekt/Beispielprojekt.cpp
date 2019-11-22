@@ -7,10 +7,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <cstdint>
 
 #include "Vektor2d.h"
 #include "Maincharacter.h"
 #include "Hindernisse.h"
+#include <time.h>
+using namespace std;
 
 // Simulationsgeschwindigkeit
 const double DT = 100.0;
@@ -20,9 +23,17 @@ class GameWindow : public Gosu::Window
 public:
 	Maincharacter Helferlein;
 	Hindernisse Box;
-	int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
+	//int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
 	double hintergrund = 0;
 	double hintergrund2 = 1910;
+	double scroll=0;
+	bool run = true;
+	int intervall = 120;
+	double lost = -200;
+	int wand = -200;
+	double speed = 10;
+	vector<Hindernisse> boxen;
+	
 	Gosu::Image Boden;
 	Gosu::Image Hintergrund;
 	Gosu::Image Hintergrund_umg;
@@ -34,6 +45,7 @@ public:
 	Gosu::Image Helferlein_r_umg;
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
+	//Gosu::Image Kiste;
 	Gosu::Font font;
 	GameWindow()
 		: Window(1920, 1080)
@@ -48,9 +60,12 @@ public:
 		, Helferlein_r_umg("Helferlein_rechts_umg.png")
 		, Helferlein_m_umg("r_l_mittig_umg.png")
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
+		//, Kiste("kiste.png")
 		, font(24)
 	{
 		set_caption("Cooles E-Techniker Spiel");
+		boxen.push_back(Box);
+		srand(time(NULL));					//Random Seed generieren
 	}
 
 	// wird bis zu 60x pro Sekunde aufgerufen.
@@ -58,16 +73,21 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		//graphics().draw_rect(0, 0, 1980, 1000, Gosu::Color::WHITE, 0.0);
 		Hintergrund.draw_rot(hintergrund, 540.0, 0.0, 0.0, 0.0);
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
-		//graphics().draw_rect(Box.get_x()+hintergrund, Box.get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
-		/*graphics().draw_triangle(
-			Helferlein.get_x(), Helferlein.get_y(), Gosu::Color::WHITE,
-			Helferlein.get_x() + 20, Helferlein.get_y()+10, Gosu::Color::WHITE,
-			Helferlein.get_x(), Helferlein.get_y()+20, Gosu::Color::WHITE,
-			0.0
-		);*/
+		for (auto i = boxen.begin(); i !=boxen.end(); i++)
+		{
+			if (i->get_deadly()==false)
+			{
+				graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+			}
+			else
+			{
+				graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
+			}
+
+		}
+
 		switch (Helferlein.get_animation())
 		{
 		case 0:
@@ -104,25 +124,85 @@ public:
 			break;
 		}
 		font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+		font.draw("Rand: " + std::to_string(wand), 1400, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
-
+	
 	void update() override
 	{
-
 		Helferlein.bewege();
+		lost += speed-5;
+		wand += speed-5;
 		if (input().down(Gosu::KB_LEFT))
 		{
-			Helferlein.left(15, hintergrund, hintergrund2);
+			intervall++;
+			scroll = Helferlein.left(speed-2);
+			hintergrund -= scroll;
+			if (hintergrund >= 1910)
+			{
+				hintergrund = -1910;
+			}
+			hintergrund2 -= scroll;
+			if (hintergrund2 >= 1910)
+			{
+				hintergrund2 = -1910;
+			}
 		}
-		else if (input().down(Gosu::KB_RIGHT))
+		else if (input().down(Gosu::KB_RIGHT)&&run==true)
 		{
-			Helferlein.right(14, hintergrund, hintergrund2);
+			intervall--;
+			scroll = Helferlein.right(speed);
+			hintergrund -= scroll;
+			lost -= scroll;
+			if (hintergrund <= -1910)
+			{
+				hintergrund = 1910;
+			}
+			hintergrund2 -= scroll;
+			if (hintergrund2 <= -1910)
+			{
+				hintergrund2 = 1910;
+			}
 		}
 		if (input().down(Gosu::KB_UP))
 		{
 			Helferlein.sprung();
+		}
+		run = true;
+		if (intervall == 0)
+		{
+			intervall = 80 + (rand()%80);
+			speed += 0.5;
+			Hindernisse neu;
+			neu.set_deadly(rand() % 2);
+			boxen.push_back(neu);
+		}
+		for (auto i = boxen.begin(); i != boxen.end(); i++)
+		{
+			i->scrollen(scroll);
+			if (Helferlein.get_y() >= 775)
+			{
+				if (i->get_deadly()==false)
+				{
+					if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+					{
+						run = false;
+					}
+				}
+				else
+				{
+					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+					{
+						exit(0);
+					}
+				}
+			}
+		}
+		scroll = 0;
+		if (lost>=Helferlein.get_x())
+		{
+			exit(0);
 		}
 	}
 };
