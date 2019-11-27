@@ -25,7 +25,7 @@ public:
 	Hindernisse Box;
 	//int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
 	double hintergrund = 0;
-	double hintergrund2 = 1910;
+	double hintergrund2 = 1900;
 	double scroll=0;
 	bool run = true;
 	int intervall = 120;
@@ -45,6 +45,8 @@ public:
 	Gosu::Image Helferlein_r_umg;
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
+	Gosu::Image Hindernis;
+	Gosu::Image Hindernis_dead;
 	//Gosu::Image Kiste;
 	Gosu::Font font;
 	GameWindow()
@@ -60,6 +62,8 @@ public:
 		, Helferlein_r_umg("Helferlein_rechts_umg.png")
 		, Helferlein_m_umg("r_l_mittig_umg.png")
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
+		, Hindernis("muelltonne2.png")
+		, Hindernis_dead("weidezaun1.png")
 		//, Kiste("kiste.png")
 		, font(24)
 	{
@@ -79,11 +83,13 @@ public:
 		{
 			if (i->get_deadly()==false)
 			{
-				graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+				//graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+				Hindernis.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
 			}
 			else
 			{
-				graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
+				//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
+				Hindernis_dead.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
 			}
 
 		}
@@ -139,14 +145,14 @@ public:
 			intervall++;
 			scroll = Helferlein.left(speed-2);
 			hintergrund -= scroll;
-			if (hintergrund >= 1910)
+			if (hintergrund >= 1900)
 			{
-				hintergrund = -1910;
+				hintergrund = -1900;
 			}
 			hintergrund2 -= scroll;
-			if (hintergrund2 >= 1910)
+			if (hintergrund2 >= 1900)
 			{
-				hintergrund2 = -1910;
+				hintergrund2 = -1900;
 			}
 		}
 		else if (input().down(Gosu::KB_RIGHT)&&run==true)
@@ -155,14 +161,14 @@ public:
 			scroll = Helferlein.right(speed);
 			hintergrund -= scroll;
 			lost -= scroll;
-			if (hintergrund <= -1910)
+			if (hintergrund <= -1900)
 			{
-				hintergrund = 1910;
+				hintergrund = 1900;
 			}
 			hintergrund2 -= scroll;
-			if (hintergrund2 <= -1910)
+			if (hintergrund2 <= -1900)
 			{
-				hintergrund2 = 1910;
+				hintergrund2 = 1900;
 			}
 		}
 		if (input().down(Gosu::KB_UP))
