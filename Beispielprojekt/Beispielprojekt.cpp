@@ -49,6 +49,7 @@ public:
 	Gosu::Image Hindernis_dead;
 	//Gosu::Image Kiste;
 	Gosu::Font font;
+	Gosu::Font gameover;
 	GameWindow()
 		: Window(1920, 1080)
 		, Boden("Sand1.png")
@@ -66,6 +67,7 @@ public:
 		, Hindernis_dead("weidezaun1.png")
 		//, Kiste("kiste.png")
 		, font(24)
+		, gameover(38)
 	{
 		set_caption("Cooles E-Techniker Spiel");
 		boxen.push_back(Box);
@@ -200,6 +202,7 @@ public:
 				{
 					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
 					{
+						//gameover.draw("Game Over", 900, 500.0, 0.0, 1.0, 1.0, Gosu::Color::RED);
 						exit(0);
 					}
 				}
