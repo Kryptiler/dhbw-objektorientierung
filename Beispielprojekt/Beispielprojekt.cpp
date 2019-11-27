@@ -89,7 +89,7 @@ public:
 			else
 			{
 				//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
-				Hindernis_dead.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+				Hindernis_dead.draw_rot(i->get_x(), i->get_y()+40.0, 0.0, 0.0, 0.0);
 			}
 
 		}
