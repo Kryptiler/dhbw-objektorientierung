@@ -10,6 +10,7 @@ public:
 	void sprung();
 	double get_x();
 	double get_y();
+	void reset();
 	int get_animation();
 	int get_score();
 

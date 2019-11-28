@@ -30,8 +30,12 @@ public:
 	bool run = true;
 	int intervall = 120;
 	double lost = -200;
-	int wand = -200;
+	int wand = -696;
 	double speed = 10;
+	int modus = 0;
+	double maus_x;
+	double maus_y;
+	int highscore = 0;
 	vector<Hindernisse> boxen;
 	
 	Gosu::Image Boden;
@@ -47,6 +51,7 @@ public:
 	Gosu::Image Helferlein_s_umg;
 	Gosu::Image Hindernis;
 	Gosu::Image Hindernis_dead;
+	Gosu::Image Blitz;
 	//Gosu::Image Kiste;
 	Gosu::Font font;
 	Gosu::Font gameover;
@@ -65,6 +70,7 @@ public:
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
 		, Hindernis("muelltonne2.png")
 		, Hindernis_dead("weidezaun1.png")
+		, Blitz("Blitz1.png")
 		//, Kiste("kiste.png")
 		, font(24)
 		, gameover(38)
@@ -81,137 +87,175 @@ public:
 	{
 		Hintergrund.draw_rot(hintergrund, 540.0, 0.0, 0.0, 0.0);
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
-		for (auto i = boxen.begin(); i !=boxen.end(); i++)
-		{
-			if (i->get_deadly()==false)
-			{
-				//graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
-				Hindernis.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
-			}
-			else
-			{
-				//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
-				Hindernis_dead.draw_rot(i->get_x(), i->get_y()+40.0, 0.0, 0.0, 0.0);
-			}
-
-		}
-
-		switch (Helferlein.get_animation())
+		switch (modus)
 		{
 		case 0:
-			Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			graphics().draw_rect(200, 200, 200, 100, Gosu::Color::WHITE, 0.0);
+			Blitz.draw_rot(maus_x, maus_y, 0.0, 300, 0.0,0.0,0.1,0.1);
 			break;
 		case 1:
-			Helferlein_r.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+			for (auto i = boxen.begin(); i != boxen.end(); i++)
+			{
+				if (i->get_deadly() == false)
+				{
+					//graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
+					Hindernis.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+				}
+				else
+				{
+					//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
+					Hindernis_dead.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+				}
+
+			}
+
+			switch (Helferlein.get_animation())
+			{
+			case 0:
+				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 1:
+				Helferlein_r.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 2:
+				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 3:
+				Helferlein_l.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 5:
+				Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 6:
+				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 7:
+				Helferlein_r_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 8:
+				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 9:
+				Helferlein_l_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 10:
+				Helferlein_s_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			default:
+				break;
+			}
+			font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+			font.draw("Rand: " + std::to_string(wand), 1400, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 			break;
-		case 2:
-			Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 3:
-			Helferlein_l.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 5:
-			Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 6:
-			Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 7:
-			Helferlein_r_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 8:
-			Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 9:
-			Helferlein_l_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		case 10:
-			Helferlein_s_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-			break;
-		default:
-			break;
+		case 2:			//Gameoverscreen
+			gameover.draw("Game Over", 900, 500.0, 0.0, 1.0, 1.0, Gosu::Color::RED);
 		}
-		font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
-		font.draw("Rand: " + std::to_string(wand), 1400, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
 	
 	void update() override
 	{
-		Helferlein.bewege();
-		lost += speed-5;
-		wand += speed-5;
-		if (input().down(Gosu::KB_LEFT))
+		switch (modus)
 		{
-			intervall++;
-			scroll = Helferlein.left(speed-2);
-			hintergrund -= scroll;
-			if (hintergrund >= 1900)
+		case 0:
+			maus_x = input().mouse_x();
+			maus_y = input().mouse_y();
+			if (input().down(Gosu::MS_LEFT) && maus_x < 400 && maus_x>200 && maus_y < 300 && maus_y>200)
 			{
-				hintergrund = -1900;
+				modus = 1;
 			}
-			hintergrund2 -= scroll;
-			if (hintergrund2 >= 1900)
+			break;
+		case 1:
+			Helferlein.bewege();
+			lost += speed - 2;
+			wand += speed - 2;
+			if (input().down(Gosu::KB_LEFT))
 			{
-				hintergrund2 = -1900;
-			}
-		}
-		else if (input().down(Gosu::KB_RIGHT)&&run==true)
-		{
-			intervall--;
-			scroll = Helferlein.right(speed);
-			hintergrund -= scroll;
-			lost -= scroll;
-			if (hintergrund <= -1900)
-			{
-				hintergrund = 1900;
-			}
-			hintergrund2 -= scroll;
-			if (hintergrund2 <= -1900)
-			{
-				hintergrund2 = 1900;
-			}
-		}
-		if (input().down(Gosu::KB_UP))
-		{
-			Helferlein.sprung();
-		}
-		run = true;
-		if (intervall == 0)
-		{
-			intervall = 80 + (rand()%80);
-			speed += 0.5;
-			Hindernisse neu;
-			neu.set_deadly(rand() % 2);
-			boxen.push_back(neu);
-		}
-		for (auto i = boxen.begin(); i != boxen.end(); i++)
-		{
-			i->scrollen(scroll);
-			if (Helferlein.get_y() >= 775)
-			{
-				if (i->get_deadly()==false)
+				intervall++;
+				scroll = Helferlein.left(speed - 2);
+				hintergrund -= scroll;
+				if (hintergrund >= 1900)
 				{
-					if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
-					{
-						run = false;
-					}
+					hintergrund = -1900;
 				}
-				else
+				hintergrund2 -= scroll;
+				if (hintergrund2 >= 1900)
 				{
-					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
-					{
-						//gameover.draw("Game Over", 900, 500.0, 0.0, 1.0, 1.0, Gosu::Color::RED);
-						exit(0);
-					}
+					hintergrund2 = -1900;
 				}
 			}
-		}
-		scroll = 0;
-		if (lost>=Helferlein.get_x())
-		{
-			exit(0);
+			else if (input().down(Gosu::KB_RIGHT) && run == true)
+			{
+				intervall--;
+				scroll = Helferlein.right(speed);
+				hintergrund -= scroll;
+				lost -= scroll;
+				if (hintergrund <= -1900)
+				{
+					hintergrund = 1900;
+				}
+				hintergrund2 -= scroll;
+				if (hintergrund2 <= -1900)
+				{
+					hintergrund2 = 1900;
+				}
+			}
+			if (input().down(Gosu::KB_UP))
+			{
+				Helferlein.sprung();
+			}
+			run = true;
+			if (intervall == 0)
+			{
+				intervall = 80 + (rand() % 80);
+				speed += 0.8;
+				Hindernisse neu;
+				neu.set_deadly(rand() % 2);
+				boxen.push_back(neu);
+			}
+			for (auto i = boxen.begin(); i != boxen.end(); i++)
+			{
+				i->scrollen(scroll);
+				if (Helferlein.get_y() >= 775)
+				{
+					if (i->get_deadly() == false)
+					{
+						if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+						{
+							run = false;
+						}
+					}
+					else
+					{
+						if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
+						{
+							modus = 2;
+						}
+					}
+				}
+			}
+			scroll = 0;
+			if (lost >= Helferlein.get_x())
+			{
+				modus = 2;
+
+			}
+			break;
+		case 2:			//Gameover
+			if (highscore < Helferlein.get_score())
+			{
+				highscore = Helferlein.get_score();
+			}
+			break;
+		case 3:			//Variablen resetten
+			boxen.clear();
+			intervall = 120;
+			lost = -200;
+			wand = -696;
+			speed = 10;
+			Helferlein.reset();
+			modus = 0;
 		}
 	}
 };

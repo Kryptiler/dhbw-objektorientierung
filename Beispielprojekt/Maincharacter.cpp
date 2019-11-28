@@ -110,6 +110,14 @@ double Maincharacter::get_y()
 	return y;
 }
 
+void Maincharacter::reset()
+{
+	this->x = 500;
+	this->y = 880;
+	this->score = 0;
+	this->animation = 0;
+}
+
 int Maincharacter::get_animation()
 {
 	return this->animation/10;
