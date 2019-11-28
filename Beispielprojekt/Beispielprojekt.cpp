@@ -49,6 +49,8 @@ public:
 	Gosu::Image Helferlein_r_umg;
 	Gosu::Image Helferlein_m_umg;
 	Gosu::Image Helferlein_s_umg;
+	Gosu::Image Helferlein_steh;
+	Gosu::Image Helferlein_steh_umg;
 	Gosu::Image Hindernis;
 	Gosu::Image Hindernis_dead;
 	Gosu::Image Blitz;
@@ -68,12 +70,14 @@ public:
 		, Helferlein_r_umg("Helferlein_rechts_umg.png")
 		, Helferlein_m_umg("r_l_mittig_umg.png")
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
+		,Helferlein_steh("Helferlein_stehend.png")
+		,Helferlein_steh_umg("Helferlein_stehend_umg.png")
 		, Hindernis("muelltonne2.png")
 		, Hindernis_dead("weidezaun1.png")
 		, Blitz("Blitz1.png")
 		//, Kiste("kiste.png")
 		, font(24)
-		, gameover(38)
+		, gameover(72)
 	{
 		set_caption("Cooles E-Techniker Spiel");
 		boxen.push_back(Box);
@@ -91,6 +95,7 @@ public:
 		{
 		case 0:
 			graphics().draw_rect(200, 200, 200, 100, Gosu::Color::WHITE, 0.0);
+			font.draw("Start", 270, 240.0, 0.0, 1.0, 1.0, Gosu::Color::BLUE);
 			Blitz.draw_rot(maus_x, maus_y, 0.0, 300, 0.0,0.0,0.1,0.1);
 			break;
 		case 1:
@@ -112,31 +117,34 @@ public:
 			switch (Helferlein.get_animation())
 			{
 			case 0:
-				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				Helferlein_steh.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 1:
-				Helferlein_r.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-				break;
-			case 2:
 				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
+			case 2:
+				Helferlein_r.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
 			case 3:
-				Helferlein_l.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
+			case 4:
+				Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 5:
 				Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 6:
-				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				Helferlein_steh_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 7:
-				Helferlein_r_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
-				break;
-			case 8:
 				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
+			case 8:
+				Helferlein_r_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				break;
 			case 9:
-				Helferlein_l_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
+				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 10:
 				Helferlein_s_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
@@ -149,6 +157,13 @@ public:
 			break;
 		case 2:			//Gameoverscreen
 			gameover.draw("Game Over", 900, 500.0, 0.0, 1.0, 1.0, Gosu::Color::RED);
+			graphics().draw_rect(500, 200, 200, 100, Gosu::Color::WHITE, 0.0);
+			graphics().draw_rect(500, 400, 200, 100, Gosu::Color::WHITE, 0.0);
+			font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+			font.draw("Menu", 570, 240.0, 0.0, 1.0, 1.0, Gosu::Color::BLUE);
+			font.draw("Beenden", 560.0, 440.0, 0.0, 1.0, 1.0, Gosu::Color::BLUE);
+			font.draw("HIGHSCORE: " + std::to_string(highscore), 1690.0, 200.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
+			Blitz.draw_rot(maus_x, maus_y, 0.0, 300, 0.0, 0.0, 0.1, 0.1);
 		}
 	}
 
@@ -208,7 +223,7 @@ public:
 			run = true;
 			if (intervall == 0)
 			{
-				intervall = 80 + (rand() % 80);
+				intervall = 80 + (rand() % 80) - speed;
 				speed += 0.8;
 				Hindernisse neu;
 				neu.set_deadly(rand() % 2);
@@ -246,6 +261,16 @@ public:
 			if (highscore < Helferlein.get_score())
 			{
 				highscore = Helferlein.get_score();
+			}
+			maus_x = input().mouse_x();
+			maus_y = input().mouse_y();
+			if (input().down(Gosu::MS_LEFT) && maus_x < 700 && maus_x>500 && maus_y < 300 && maus_y>200)
+			{
+				modus = 3;
+			}
+			if (input().down(Gosu::MS_LEFT) && maus_x < 700 && maus_x>500 && maus_y < 500 && maus_y>300)
+			{
+				exit(0);
 			}
 			break;
 		case 3:			//Variablen resetten
