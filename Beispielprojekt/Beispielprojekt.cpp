@@ -101,15 +101,18 @@ public:
 		case 1:
 			for (auto i = boxen.begin(); i != boxen.end(); i++)
 			{
-				if (i->get_deadly() == false)
+				switch(i->get_deadly())
 				{
+				case 0:
 					//graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
 					Hindernis.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
-				}
-				else
-				{
+					break;
+				case 1:
 					//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
 					Hindernis_dead.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+					break;
+				case 2:
+					Blitz.draw_rot(i->get_x(), i->get_y()+50, 0.0, 90, 0.0, 0.0, 0.2, 0.2);
 				}
 
 			}
@@ -226,28 +229,33 @@ public:
 				intervall = 80 + (rand() % 80) - speed;
 				speed += 0.8;
 				Hindernisse neu;
-				neu.set_deadly(rand() % 2);
+				neu.set_deadly(rand() % 3);
 				boxen.push_back(neu);
 			}
 			for (auto i = boxen.begin(); i != boxen.end(); i++)
 			{
 				i->scrollen(scroll);
-				if (Helferlein.get_y() >= 775)
+				switch (i->get_deadly())
 				{
-					if (i->get_deadly() == false)
+				case 0:
+					if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
-						if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
-						{
-							run = false;
-						}
+						run = false;
 					}
-					else
+					break;
+				case 1:
+					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
-						if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()))
-						{
-							modus = 2;
-						}
+						modus = 2;
 					}
+					break;
+				case 2:
+					i->scrollen(5);
+					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
+					{
+						modus = 2;
+					}
+					break;
 				}
 			}
 			scroll = 0;

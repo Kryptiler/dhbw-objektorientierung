@@ -35,12 +35,12 @@ void Hindernisse::scrollen(double scroll)
 	x -= scroll;
 }
 
-void Hindernisse::set_deadly(bool d)
+void Hindernisse::set_deadly(int d)
 {
 	this->deadly = d;
 }
 
-bool Hindernisse::get_deadly()
+int Hindernisse::get_deadly()
 {
 	return this->deadly;
 }

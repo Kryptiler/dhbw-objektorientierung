@@ -7,11 +7,11 @@ public:
 	double get_x();
 	double get_y();
 	void scrollen(double scroll);
-	void set_deadly(bool d);
-	bool get_deadly();
+	void set_deadly(int d);
+	int get_deadly();
 private:
 	bool da = true;
-	bool deadly;
+	int deadly;
 	double x;
 	double y;
 };
