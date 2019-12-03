@@ -16,28 +16,29 @@ Maincharacter::~Maincharacter()
 void Maincharacter::bewege()
 {
 	y += v_y;
-	if (y > 880)
+	if (y > 880)			//Charakter auf dem Boden
 	{
 		y = 880;
+		v_y = 0;
 	}
 	if (jump==false)
 	{
 		if (y < 880)
 		{
-			v_y += a_down * 0.3;
+			v_y += a_down * 0.3;		//linear beschleunigtes Fallen
 			a_down++;
 		}
 		else
 		{
 			a_down = 0;
 			jump = true;
-			if (richtung==true)
+			if (richtung==true)			//landet im Stehen
 			{
-				animation = 0;
+				animation = 0;			//Stehen nach rechts
 			}
 			else
 			{
-				animation = 60;
+				animation = 60;			//Stehen nach links
 			}
 		}
 	}
@@ -52,7 +53,7 @@ double Maincharacter::right(double speed)
 	{
 		animation = 0;
 	}
-	if (x+speed>=1200)
+	if (x+speed>=1200)			//Hintergrund scrollt
 	{
 		return speed;
 	}
@@ -72,7 +73,7 @@ double Maincharacter::left(double speed)
 	{
 		animation = 60;
 	}
-	if (x - speed <= 480)
+	if (x - speed <= 480)		//Hintergrund scrollt
 	{
 		return -speed;
 	}
@@ -91,11 +92,11 @@ void Maincharacter::sprung()
 		jump = false;
 		if (richtung==true)
 		{
-			animation = 50;
+			animation = 50;			//Sprung nach rechts
 		}
 		else
 		{
-			animation = 100;
+			animation = 100;		//Sprung nach links
 		}
 	}
 }
@@ -120,7 +121,7 @@ void Maincharacter::reset()
 
 int Maincharacter::get_animation()
 {
-	return this->animation/10;
+	return this->animation/10;			//Neues Bild alle 10 Frames
 }
 
 int Maincharacter::get_score()

@@ -21,24 +21,21 @@ const double DT = 100.0;
 class GameWindow : public Gosu::Window
 {
 public:
-	Maincharacter Helferlein;
-	Hindernisse Box;
-	//int scroll = 0; // 0 = nicht scrollen, 1 = rechts scrollen, -1 = links scrollen
+	Maincharacter Helferlein;	//Spielcharakter
+	Hindernisse Box;			//erstes Hindernis
 	double hintergrund = 0;
 	double hintergrund2 = 1900;
-	double scroll=0;
+	double scroll = 0;
 	bool run = true;
 	int intervall = 120;
-	double lost = -200;
 	int wand = -696;
 	double speed = 10;
-	int modus = 0;
+	int modus = 0;				// 0 = Menü, 1 = Spiel, 2 = GameOver, 3 = Variablen zurücksetzen
 	double maus_x;
 	double maus_y;
 	int highscore = 0;
 	vector<Hindernisse> boxen;
 	
-	Gosu::Image Boden;
 	Gosu::Image Hintergrund;
 	Gosu::Image Hintergrund_umg;
 	Gosu::Image Helferlein_l;
@@ -51,15 +48,13 @@ public:
 	Gosu::Image Helferlein_s_umg;
 	Gosu::Image Helferlein_steh;
 	Gosu::Image Helferlein_steh_umg;
-	Gosu::Image Hindernis;
-	Gosu::Image Hindernis_dead;
+	Gosu::Image Tonne;
+	Gosu::Image Zaun;
 	Gosu::Image Blitz;
-	//Gosu::Image Kiste;
 	Gosu::Font font;
 	Gosu::Font gameover;
 	GameWindow()
 		: Window(1920, 1080)
-		, Boden("Sand1.png")
 		, Hintergrund("Haeuser_Hintergrund.png")
 		, Hintergrund_umg("Haeuser_Hintergrund_umg.png")
 		, Helferlein_l("Helferlein_Mittelpos.png")
@@ -72,10 +67,9 @@ public:
 		, Helferlein_s_umg("Helferlein_Sprung_umg.png")
 		,Helferlein_steh("Helferlein_stehend.png")
 		,Helferlein_steh_umg("Helferlein_stehend_umg.png")
-		, Hindernis("muelltonne2.png")
-		, Hindernis_dead("weidezaun1.png")
+		, Tonne("muelltonne2.png")
+		, Zaun("weidezaun1.png")
 		, Blitz("Blitz1.png")
-		//, Kiste("kiste.png")
 		, font(24)
 		, gameover(72)
 	{
@@ -93,33 +87,30 @@ public:
 		Hintergrund_umg.draw_rot(hintergrund2, 540.0, 0.0, 0.0, 0.0);
 		switch (modus)
 		{
-		case 0:
+		case 0:					// Menü
 			graphics().draw_rect(200, 200, 200, 100, Gosu::Color::WHITE, 0.0);
 			font.draw("Start", 270, 240.0, 0.0, 1.0, 1.0, Gosu::Color::BLUE);
 			Blitz.draw_rot(maus_x, maus_y, 0.0, 300, 0.0,0.0,0.1,0.1);
 			break;
-		case 1:
-			for (auto i = boxen.begin(); i != boxen.end(); i++)
+		case 1:					//Spiel
+			for (auto i = boxen.begin(); i != boxen.end(); i++)			//Hindernisse zeichnen
 			{
-				switch(i->get_deadly())
+				switch (i->get_deadly())
 				{
 				case 0:
-					//graphics().draw_rect(i->get_x(), i->get_y(), 100, 100, Gosu::Color::BLACK, 0.0);
-					Hindernis.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+					Tonne.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
 					break;
 				case 1:
-					//graphics().draw_rect(i->get_x(), i->get_y(), 50, 100, Gosu::Color::WHITE, 0.0);
-					Hindernis_dead.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
+					Zaun.draw_rot(i->get_x(), i->get_y(), 0.0, 0.0, 0.0);
 					break;
 				case 2:
-					Blitz.draw_rot(i->get_x(), i->get_y()+50, 0.0, 90, 0.0, 0.0, 0.2, 0.2);
+					Blitz.draw_rot(i->get_x(), i->get_y() - 50, 0.0, 90, 0.0, 0.0, 0.2, 0.2);
 				}
-
 			}
 
-			switch (Helferlein.get_animation())
+			switch (Helferlein.get_animation())			//Laufanimation
 			{
-			case 0:
+			case 0:										//nach rechts laufen
 				Helferlein_steh.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 1:
@@ -131,13 +122,13 @@ public:
 			case 3:
 				Helferlein_m.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
-			case 4:
+			case 4:										//Sprung nach rechts
 				Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
-			case 5:
+			case 5:										
 				Helferlein_s.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
-			case 6:
+			case 6:										//nach links laufen
 				Helferlein_steh_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			case 7:
@@ -149,12 +140,13 @@ public:
 			case 9:
 				Helferlein_m_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
-			case 10:
+			case 10:									//Sprung nach links
 				Helferlein_s_umg.draw_rot(Helferlein.get_x(), Helferlein.get_y(), 0.0, 0.0, 0.0, 1.0);
 				break;
 			default:
 				break;
 			}
+
 			font.draw("SCORE: " + std::to_string(Helferlein.get_score()), 1690.0, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 			font.draw("Rand: " + std::to_string(wand), 1400, 90.0, 0.0, 1.0, 1.0, Gosu::Color::WHITE);
 			break;
@@ -176,7 +168,7 @@ public:
 	{
 		switch (modus)
 		{
-		case 0:
+		case 0:					//Menü
 			maus_x = input().mouse_x();
 			maus_y = input().mouse_y();
 			if (input().down(Gosu::MS_LEFT) && maus_x < 400 && maus_x>200 && maus_y < 300 && maus_y>200)
@@ -184,9 +176,8 @@ public:
 				modus = 1;
 			}
 			break;
-		case 1:
+		case 1:					//Spiel
 			Helferlein.bewege();
-			lost += speed - 2;
 			wand += speed - 2;
 			if (input().down(Gosu::KB_LEFT))
 			{
@@ -208,7 +199,6 @@ public:
 				intervall--;
 				scroll = Helferlein.right(speed);
 				hintergrund -= scroll;
-				lost -= scroll;
 				if (hintergrund <= -1900)
 				{
 					hintergrund = 1900;
@@ -224,7 +214,7 @@ public:
 				Helferlein.sprung();
 			}
 			run = true;
-			if (intervall == 0)
+			if (intervall == 0)				//Hindernis erzeugen
 			{
 				intervall = 80 + (rand() % 80) - speed;
 				speed += 0.8;
@@ -237,19 +227,19 @@ public:
 				i->scrollen(scroll);
 				switch (i->get_deadly())
 				{
-				case 0:
+				case 0:					//Mülltonne
 					if ((Helferlein.get_x() + 150 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
 						run = false;
 					}
 					break;
-				case 1:
+				case 1:					//Zaun
 					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
 						modus = 2;
 					}
 					break;
-				case 2:
+				case 2:					//Blitz
 					i->scrollen(5);
 					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
@@ -259,7 +249,7 @@ public:
 				}
 			}
 			scroll = 0;
-			if (lost >= Helferlein.get_x())
+			if (wand >= Helferlein.get_score())
 			{
 				modus = 2;
 
@@ -284,7 +274,6 @@ public:
 		case 3:			//Variablen resetten
 			boxen.clear();
 			intervall = 120;
-			lost = -200;
 			wand = -696;
 			speed = 10;
 			Helferlein.reset();
