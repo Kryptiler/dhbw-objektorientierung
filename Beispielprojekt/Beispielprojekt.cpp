@@ -241,7 +241,7 @@ public:
 					break;
 				case 2:					//Blitz
 					i->scrollen(5);
-					if ((Helferlein.get_x() + 75 >= i->get_x()) && (Helferlein.get_x() <= i->get_x()) && Helferlein.get_y() >= 775)
+					if ((Helferlein.get_x() >= i->get_x()) && (Helferlein.get_x() - 75 <= i->get_x()) && Helferlein.get_y() >= 775)
 					{
 						modus = 2;
 					}
